@@ -49,10 +49,17 @@ describe '#top_up' do
   describe '#touch_in' do 
     it " register the card is in journey" do
       card = OysterCard.new
+      card.top_up(10)
       card.touch_in
       expect(card.in_journey?).to eq true 
     end 
   end 
+
+  it "Raise error if balance below £1" do 
+    card = OysterCard.new
+    expect { card.touch_in }.to raise_error "No Entry"
+  end 
+
 
   describe '#touch_out' do 
     it " register the card is out of journey" do

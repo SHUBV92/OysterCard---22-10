@@ -22,6 +22,7 @@ def in_journey?
 end 
 
 def touch_in 
+  fail "No Entry" if @balance < 1
    @in_use = true 
 end 
 
