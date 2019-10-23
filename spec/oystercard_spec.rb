@@ -3,6 +3,9 @@ require 'oystercard'
 describe OysterCard do
 
   let(:station) { double :station }
+  let(:entry_station) { double :station }
+  let(:exit_station) { double :station}
+  let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
 
   context '#initialize' do
     it "instance is created does journey equals false" do
@@ -15,9 +18,6 @@ describe OysterCard do
 
   end
 
-  
-  
-  
   describe '#top_up' do
 
     it 'can top up the balance' do
@@ -31,10 +31,6 @@ describe OysterCard do
     end
   end
 
-  
-
- 
- 
   describe "#in_journey" do
     it "checks if in_journey? returns true or false" do
       card = OysterCard.new
@@ -44,45 +40,45 @@ describe OysterCard do
 
   describe '#touch_in' do
 
-   
-  it " register the card is in journey" do
+    it " register the card is in journey" do
       card = OysterCard.new
       card.top_up(10)
       card.touch_in(station)
       expect(card.in_journey?).to eq true
     end
-  end 
-
+  end
 
   it "Raise error if balance below £1" do
     card = OysterCard.new
     expect { card.touch_in(station) }.to raise_error "No Entry"
   end
 
-
-  it " card to remeber the entry station when touched in" do 
-     card = OysterCard.new
-     card.top_up(10)
-     card.touch_in(station)
-     expect(card.entry_station).to eq(station)
-  end 
-
-  
-  
   describe '#touch_out' do
     it " register the card is out of journey" do
       card = OysterCard.new
-      card.touch_out
+      card.touch_out(station)
       expect(card.in_journey?).to eq false
     end
 
     it "charge the card with right amount" do
       card = OysterCard.new
       card.top_up(10)
-      expect{card.touch_out}.to change{card.balance}.by(-OysterCard::MIN_LIMIT)
+      expect{card.touch_out(station)}.to change{card.balance}.by(-OysterCard::MIN_LIMIT)
+    end
+
+    it 'has an empty list at start' do
+      card = OysterCard.new
+      expect(card.journey_history).to be_empty
+    end
+
+    it 'stores a journey' do
+      card = OysterCard.new
+      card.top_up(10)
+      card.touch_in(entry_station)
+      card.touch_out(exit_station)
+      expect(card.journey_history).to include journey
     end
 
   end
 
 end
-
