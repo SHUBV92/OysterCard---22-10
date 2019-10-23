@@ -72,7 +72,7 @@ describe OysterCard do
     it "charge the card with right amount" do
       card = OysterCard.new
       card.top_up(10)
-      expect{card.deduct(5)}.to change{card.touch_out}.by(5)
+      expect{card.deduct(OysterCard::MIN_LIMIT)}.to change{card.balance}.by(-OysterCard::MIN_LIMIT)
     end
 
   end

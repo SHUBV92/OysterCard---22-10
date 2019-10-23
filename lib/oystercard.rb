@@ -2,6 +2,7 @@ class OysterCard
   attr_reader :balance
 
   MAX_LIMIT = 90
+  MIN_LIMIT = 1
 
   def initialize
     @balance = 0
@@ -24,12 +25,12 @@ class OysterCard
   end 
 
   def touch_in
-    fail "No Entry" if @balance < 1
+    fail "No Entry" if @balance < MIN_LIMIT
     @in_use = true
   end
 
   def touch_out
-
+    deduct(MIN_LIMIT)
     @in_use = false
 
   end
