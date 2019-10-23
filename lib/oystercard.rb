@@ -4,8 +4,8 @@ class OysterCard
   MAX_LIMIT = 90
 
   def initialize
-      @balance = 0
-      @in_use = false 
+    @balance = 0
+    @in_use = false
   end
 
   def top_up(amount)
@@ -13,26 +13,26 @@ class OysterCard
     @balance += amount
   end
 
- 
+
 
   def deduct(amount)
     @balance -= amount
   end
 
-def in_journey?
+  def in_journey?
     @in_use
-end 
+  end 
 
-def touch_in 
-  fail "No Entry" if @balance < 1
-   @in_use = true 
-end 
+  def touch_in
+    fail "No Entry" if @balance < 1
+    @in_use = true
+  end
 
-def touch_out 
-  
-  @in_use = false 
+  def touch_out
 
-end 
+    @in_use = false
+
+  end
 
 
 
