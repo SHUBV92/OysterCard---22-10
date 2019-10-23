@@ -2,6 +2,8 @@ require 'oystercard'
 
 describe OysterCard do
 
+  let(:station) { double :station }
+
   context '#initialize' do
     it "instance is created does journey equals false" do
       expect(subject.in_journey?).to eq false
@@ -13,12 +15,13 @@ describe OysterCard do
 
   end
 
+  
+  
+  
   describe '#top_up' do
 
-    it { is_expected.to respond_to(:top_up).with(1).argument }
-
     it 'can top up the balance' do
-      expect{ subject.top_up 1 }.to change{ subject.balance }.by 1
+      expect{ subject.top_up(1) }.to change{ subject.balance }.by(1)
     end
 
     it "to raise an error when balance reaches £90" do
@@ -29,8 +32,9 @@ describe OysterCard do
   end
 
   
-    
 
+ 
+ 
   describe "#in_journey" do
     it "checks if in_journey? returns true or false" do
       card = OysterCard.new
@@ -39,10 +43,12 @@ describe OysterCard do
   end
 
   describe '#touch_in' do
-    it " register the card is in journey" do
+
+   
+  it " register the card is in journey" do
       card = OysterCard.new
       card.top_up(10)
-      card.touch_in
+      card.touch_in(station)
       expect(card.in_journey?).to eq true
     end
   end 
@@ -50,10 +56,19 @@ describe OysterCard do
 
   it "Raise error if balance below £1" do
     card = OysterCard.new
-    expect { card.touch_in }.to raise_error "No Entry"
+    expect { card.touch_in(station) }.to raise_error "No Entry"
   end
 
 
+  it " card to remeber the entry station when touched in" do 
+     card = OysterCard.new
+     card.top_up(10)
+     card.touch_in(station)
+     expect(card.entry_station).to eq(station)
+  end 
+
+  
+  
   describe '#touch_out' do
     it " register the card is out of journey" do
       card = OysterCard.new
