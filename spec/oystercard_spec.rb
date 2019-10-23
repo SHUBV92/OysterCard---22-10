@@ -55,6 +55,7 @@ describe '#top_up' do
     end 
   end 
 
+
   it "Raise error if balance below £1" do 
     card = OysterCard.new
     expect { card.touch_in }.to raise_error "No Entry"
@@ -67,7 +68,13 @@ describe '#top_up' do
       card.touch_out
       expect(card.in_journey?).to eq false
     end 
+     
+    it "charge the card with right amount" do  
+      card = OysterCard.new
+      card.top_up(10)
+      expect{card.deduct(5)}.to change{card.touch_out}.by(5)  
+    end
+      
   end 
-
 
 end
