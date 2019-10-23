@@ -28,16 +28,8 @@ describe OysterCard do
     end
   end
 
-  describe "#deduct" do
-
-    it { is_expected.to respond_to(:deduct).with(1).argument }
-
-    it 'it deducts the argument from balance' do
-      card = OysterCard.new
-      card.top_up(50)
-      expect { card.deduct(30) }.to change { card.balance }.by -30
-    end
-  end
+  
+    
 
   describe "#in_journey" do
     it "checks if in_journey? returns true or false" do
@@ -72,9 +64,10 @@ describe OysterCard do
     it "charge the card with right amount" do
       card = OysterCard.new
       card.top_up(10)
-      expect{card.deduct(OysterCard::MIN_LIMIT)}.to change{card.balance}.by(-OysterCard::MIN_LIMIT)
+      expect{card.touch_out}.to change{card.balance}.by(-OysterCard::MIN_LIMIT)
     end
 
   end
 
 end
+
